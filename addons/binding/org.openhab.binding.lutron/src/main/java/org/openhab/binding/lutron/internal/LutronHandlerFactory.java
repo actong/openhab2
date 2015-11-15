@@ -20,6 +20,7 @@ import org.openhab.binding.lutron.handler.DimmerHandler;
 import org.openhab.binding.lutron.handler.IPBridgeHandler;
 import org.openhab.binding.lutron.handler.KeypadHandler;
 import org.openhab.binding.lutron.handler.OccupancySensorHandler;
+import org.openhab.binding.lutron.handler.ShadeHandler;
 import org.openhab.binding.lutron.handler.SwitchHandler;
 
 import com.google.common.collect.ImmutableSet;
@@ -33,7 +34,7 @@ import com.google.common.collect.ImmutableSet;
 public class LutronHandlerFactory extends BaseThingHandlerFactory {
 
     private final static Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = ImmutableSet.of(THING_TYPE_IPBRIDGE,
-            THING_TYPE_DIMMER, THING_TYPE_SWITCH, THING_TYPE_OCCUPANCYSENSOR, THING_TYPE_KEYPAD);
+            THING_TYPE_DIMMER, THING_TYPE_SWITCH, THING_TYPE_OCCUPANCYSENSOR, THING_TYPE_KEYPAD, THING_TYPE_SHADE);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -55,6 +56,8 @@ public class LutronHandlerFactory extends BaseThingHandlerFactory {
             return new OccupancySensorHandler(thing);
         } else if (thingTypeUID.equals(THING_TYPE_KEYPAD)) {
             return new KeypadHandler(thing);
+        } else if (thingTypeUID.equals(THING_TYPE_SHADE)) {
+            return new ShadeHandler(thing);
         }
 
         return null;

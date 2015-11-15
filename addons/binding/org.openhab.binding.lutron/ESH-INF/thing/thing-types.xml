@@ -167,6 +167,26 @@
         </config-description>
     </thing-type>
 
+    <thing-type id="shade">
+        <supported-bridge-type-refs>
+            <bridge-type-ref id="ipbridge"/>
+        </supported-bridge-type-refs>
+
+        <label>Sivoia QS Shade</label>
+        <description>Window shade</description>
+
+        <channels>
+            <channel id="liftlevel" typeId="liftLevel"/>
+        </channels>
+
+        <config-description>
+            <parameter name="integrationId" type="integer" required="true">
+                <label>Integration ID</label>
+                <description>Address of shade in the Lutron lighting system</description>
+            </parameter>
+        </config-description>
+    </thing-type>
+
     <channel-type id="lightDimmer">
         <item-type>Dimmer</item-type>
         <label>Light Level</label>
@@ -202,5 +222,13 @@
         <label>Keypad button LED indicator</label>
         <description>LED indicator for the associated button</description>
         <category>Light</category>
+    </channel-type>
+
+    <channel-type id="liftLevel">
+        <item-type>Rollershutter</item-type>
+        <label>Lift Level</label>
+        <description>Raise or lower the shade</description>
+        <category>Blinds</category>
+        <state min="0" max="100" pattern="%d %%"/>
     </channel-type>
 </thing:thing-descriptions>
