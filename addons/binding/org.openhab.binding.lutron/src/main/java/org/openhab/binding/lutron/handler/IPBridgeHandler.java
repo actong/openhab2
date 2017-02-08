@@ -256,8 +256,8 @@ public class IPBridgeHandler extends BaseBridgeHandler {
             this.session.waitFor("password:");
             this.session.writeLine(config.getPassword() != null ? config.getPassword() : DEFAULT_PASSWORD);
 
-            MatchResult matchResult = this.session.waitFor("(login:|GNET>)");
-            if ("GNET>".equals(matchResult.group())) {
+            MatchResult matchResult = this.session.waitFor("(login:|.NET>)");
+            if (matchResult.group().endsWith("NET>")) {
                 return true;
             }
 
