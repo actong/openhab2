@@ -45,9 +45,12 @@ public class OccupancySensorHandler extends LutronHandler {
 
         this.integrationId = id.intValue();
 
-        if (verifyBridgeOnline()) {
-            updateStatus(ThingStatus.ONLINE);
-        }
+        super.initialize();
+    }
+
+    @Override
+    protected void refreshState() {
+        // Sensors only provide one-way notifications to the bridge; there's no way to query sensor state.
     }
 
     @Override

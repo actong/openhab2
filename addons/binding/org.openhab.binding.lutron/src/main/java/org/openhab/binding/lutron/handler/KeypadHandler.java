@@ -72,17 +72,18 @@ public class KeypadHandler extends LutronHandler {
 
         this.integrationId = id.intValue();
 
-        if (verifyBridgeOnline()) {
-            updateStatus(ThingStatus.ONLINE);
+        super.initialize();
+    }
 
-            queryDevice(COMPONENT_LED1, LED_STATE);
-            queryDevice(COMPONENT_LED2, LED_STATE);
-            queryDevice(COMPONENT_LED3, LED_STATE);
-            queryDevice(COMPONENT_LED4, LED_STATE);
-            queryDevice(COMPONENT_LED5, LED_STATE);
-            queryDevice(COMPONENT_LED6, LED_STATE);
-            queryDevice(COMPONENT_LED7, LED_STATE);
-        }
+    @Override
+    protected void refreshState() {
+        queryDevice(COMPONENT_LED1, LED_STATE);
+        queryDevice(COMPONENT_LED2, LED_STATE);
+        queryDevice(COMPONENT_LED3, LED_STATE);
+        queryDevice(COMPONENT_LED4, LED_STATE);
+        queryDevice(COMPONENT_LED5, LED_STATE);
+        queryDevice(COMPONENT_LED6, LED_STATE);
+        queryDevice(COMPONENT_LED7, LED_STATE);
     }
 
     private ChannelUID channelFromComponent(int component) {

@@ -59,10 +59,12 @@ public class DimmerHandler extends LutronHandler {
             return;
         }
 
-        if (verifyBridgeOnline()) {
-            updateStatus(ThingStatus.ONLINE);
-            queryOutput(ACTION_ZONELEVEL);
-        }
+        super.initialize();
+    }
+
+    @Override
+    protected void refreshState() {
+        queryOutput(ACTION_ZONELEVEL);
     }
 
     @Override

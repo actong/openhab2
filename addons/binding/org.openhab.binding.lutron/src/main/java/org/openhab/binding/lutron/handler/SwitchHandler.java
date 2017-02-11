@@ -46,10 +46,12 @@ public class SwitchHandler extends LutronHandler {
 
         this.integrationId = id.intValue();
 
-        if (verifyBridgeOnline()) {
-            updateStatus(ThingStatus.ONLINE);
-            queryOutput(ACTION_ZONELEVEL);
-        }
+        super.initialize();
+    }
+
+    @Override
+    protected void refreshState() {
+        queryOutput(ACTION_ZONELEVEL);
     }
 
     @Override
