@@ -59,14 +59,10 @@ public class DimmerHandler extends LutronHandler {
             return;
         }
 
-        if (getThing().getBridgeUID() == null) {
-            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, "No bridge configured");
-
-            return;
+        if (verifyBridgeOnline()) {
+            updateStatus(ThingStatus.ONLINE);
+            queryOutput(ACTION_ZONELEVEL);
         }
-
-        updateStatus(ThingStatus.ONLINE);
-        queryOutput(ACTION_ZONELEVEL);
     }
 
     @Override

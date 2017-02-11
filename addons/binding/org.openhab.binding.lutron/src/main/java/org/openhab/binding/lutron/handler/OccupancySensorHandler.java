@@ -45,7 +45,9 @@ public class OccupancySensorHandler extends LutronHandler {
 
         this.integrationId = id.intValue();
 
-        updateStatus(ThingStatus.ONLINE);
+        if (verifyBridgeOnline()) {
+            updateStatus(ThingStatus.ONLINE);
+        }
     }
 
     @Override

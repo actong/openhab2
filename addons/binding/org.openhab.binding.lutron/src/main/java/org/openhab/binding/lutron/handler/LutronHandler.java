@@ -42,6 +42,24 @@ public abstract class LutronHandler extends BaseThingHandler {
         return bridge == null ? null : (IPBridgeHandler) bridge.getHandler();
     }
 
+    protected boolean verifyBridgeOnline() {
+        IPBridgeHandler handler = getBridgeHandler();
+
+        if (handler == null) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.HANDLER_MISSING_ERROR, "No bridge associated");
+
+            return false;
+        }
+
+        if (handler.getThing().getStatus() != ThingStatus.ONLINE) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
+
+            return false;
+        }
+
+        return true;
+    }
+
     private void sendCommand(LutronCommand command) {
         IPBridgeHandler bridgeHandler = getBridgeHandler();
 
