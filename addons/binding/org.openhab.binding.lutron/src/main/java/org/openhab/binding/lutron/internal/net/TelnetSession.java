@@ -112,22 +112,33 @@ public class TelnetSession implements Closeable {
 
     @Override
     public void close() throws IOException {
-        if (this.telnetClient.isConnected()) {
-            this.telnetClient.disconnect();
+        synchronized (this.charBuffer) {
+            try {
+                if (this.telnetClient.isConnected()) {
+                    this.telnetClient.disconnect();
+                }
+            } finally {
+                this.reader = null;
+                this.outstream = null;
+            }
         }
     }
 
     public boolean isConnected() {
-        return this.telnetClient.isConnected();
+        synchronized (this.charBuffer) {
+            return this.reader != null;
+        }
     }
 
     private void readInput() throws IOException {
         synchronized (this.charBuffer) {
-            this.reader.read(this.charBuffer);
-            this.charBuffer.notifyAll();
+            if (this.reader != null) {
+                this.reader.read(this.charBuffer);
+                this.charBuffer.notifyAll();
 
-            if (this.charBuffer.position() > 0) {
-                notifyInputAvailable();
+                if (this.charBuffer.position() > 0) {
+                    notifyInputAvailable();
+                }
             }
         }
     }
@@ -212,10 +223,16 @@ public class TelnetSession implements Closeable {
     }
 
     public void writeLine(String line) throws IOException {
-        this.outstream.print(line + "\r\n");
+        synchronized (this.charBuffer) {
+            if (this.outstream == null) {
+                throw new IOException("Session is closed");
+            }
 
-        if (this.outstream.checkError()) {
-            throw new IOException("Could not write to stream");
+            this.outstream.print(line + "\r\n");
+
+            if (this.outstream.checkError()) {
+                throw new IOException("Could not write to stream");
+            }
         }
     }
 }
