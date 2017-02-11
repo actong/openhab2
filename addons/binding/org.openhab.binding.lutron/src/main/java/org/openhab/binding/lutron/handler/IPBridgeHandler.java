@@ -160,6 +160,14 @@ public class IPBridgeHandler extends BaseBridgeHandler {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR, e.getMessage());
             disconnect();
 
+            // Possibly an intermittent problem, try again later.
+            this.scheduler.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    connect();
+                }
+            }, 5, TimeUnit.MINUTES);
+
             return;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
